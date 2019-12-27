@@ -45,11 +45,46 @@ namespace WebApp1.Logic
 
 		#region Public Methods
 
-		public async Task<IEnumerable<GlobalParams_Model.GlobalParamsModel_Out>> GetGlobalParamsAsync(GlobalParams_Model.GlobalParamsModel_In modelIn)
+		public async Task<IEnumerable<GlobalParams_Model.GlobalParamsModel_Out>> GetGlobalParamsAsync()
 		{
-			var apiMessage = new List<GlobalParams_Model.GlobalParamsModel_Out>();
 
-			return await globalParamsCtx.GetGlobalParamsAsync<GlobalParams_Model.GlobalParamsModel_In, GlobalParams_Model.GlobalParamsModel_Out>(modelIn);
+			return await globalParamsCtx.GetGlobalParamsAsync<GlobalParams_Model.GlobalParamsModelView_In, GlobalParams_Model.GlobalParamsModel_Out>();
+
+		}
+
+		public async Task<GlobalParams_Model.GlobalParamsModel_Out> GetGlobalParamsByIdAsync(int Id)
+		{
+			if (Id == (default(int)))
+			{
+				return null;
+			}
+			var modelDataIn = new GlobalParams_Model.GlobalParamsModelView_In() { ParamId = Id };
+
+			return await globalParamsCtx.GetGlobalParamsByIdAsync<GlobalParams_Model.GlobalParamsModelView_In, GlobalParams_Model.GlobalParamsModel_Out>(modelDataIn);
+
+		}
+
+		public async Task<GlobalParams_Model.GlobalParamsModel_Out> GetGlobalParamsByNameViewAsync(string Name)
+		{
+			if (string.IsNullOrEmpty(Name))
+			{
+				return null;
+			}
+			var modelDataIn = new GlobalParams_Model.GlobalParamsModelView_In() { ParamName = Name };
+
+			return await globalParamsCtx.GetGlobalParamsByNameViewAsync<GlobalParams_Model.GlobalParamsModelView_In, GlobalParams_Model.GlobalParamsModel_Out>(modelDataIn);
+
+		}
+
+		public async Task<GlobalParams_Model.GlobalParamsModel_Out> GetGlobalParamsByNameProcAsync(string Name)
+		{
+			if (string.IsNullOrEmpty(Name))
+			{
+				return null;
+			}
+			var modelDataIn = new GlobalParams_Model.GlobalParamsModelProc_In() { ParamName = Name };
+
+			return await globalParamsCtx.GetGlobalParamsByNameProcAsync<GlobalParams_Model.GlobalParamsModelProc_In, GlobalParams_Model.GlobalParamsModel_Out>(modelDataIn);
 
 		}
 		#endregion Public Methods

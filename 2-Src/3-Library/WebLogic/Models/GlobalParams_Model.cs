@@ -5,12 +5,24 @@ namespace WebApp1.Models
 {
 	public class GlobalParams_Model
 	{
-		public class GlobalParamsModel_In
+
+		public class GlobalParamsModelView_In
+		{
+
+			[Column("agpv_id")]
+			public int ParamId { get; set; }
+
+			[Column("agpv_paramname")]
+			public string ParamName { get; set; }
+
+		}
+
+		public class GlobalParamsModelProc_In
 		{
 
 			[Required]
-			[Column("p_paramname1")]
-			public string ParamName1 { get; set; }
+			[Column("p_paramname")]
+			public string ParamName { get; set; }
 
 		}
 

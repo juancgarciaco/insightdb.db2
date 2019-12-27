@@ -63,25 +63,27 @@ SELECT * FROM v_adm_globalparams_vertical;
 DROP PROCEDURE IF EXISTS informix.proc_globalparams_vertical_byname;
 
 CREATE PROCEDURE informix.proc_globalparams_vertical_byname(
-	p_paramname1 VARCHAR(60)
+	p_paramname VARCHAR(60)
 )
 	RETURNING
-		  INTEGER agpv_id
-		, VARCHAR(60) agpv_paramname
-		, VARCHAR(100) agpv_paramvalue
-		, VARCHAR(200) agpv_description
+		  INTEGER AS agpv_id
+		, VARCHAR(60) AS agpv_paramname
+		, VARCHAR(100) AS agpv_paramvalue
+		, VARCHAR(200) AS agpv_description
+		, CHAR(1) AS v_rowstate
 	;
 
 	-- DEFINES
-	DEFINE t_paramname1 VARCHAR(60);
+	DEFINE t_paramname VARCHAR(60);
 	-- OUT VARS
+	DEFINE v_id INTEGER;
 	DEFINE v_paramname VARCHAR(60);
     DEFINE v_paramvalue VARCHAR(100);
     DEFINE v_description VARCHAR(200);
     DEFINE v_rowstate CHAR(1);
 
 	-- ASSIGNS
-	LET t_paramname1 = UPPER(p_paramname1);
+	LET t_paramname = UPPER(p_paramname);
 
 	FOREACH
 		SELECT
@@ -91,7 +93,7 @@ CREATE PROCEDURE informix.proc_globalparams_vertical_byname(
 		FROM 
 			v_adm_globalparams_vertical
 		WHERE
-			UPPER(agpv_paramname) == t_paramname1
+			UPPER(agpv_paramname) == t_paramname
 			
 		RETURN 
 			v_id, v_paramname, v_paramvalue, v_description, v_rowstate
